@@ -3,16 +3,16 @@ package io.github.scitia.susieserver.search;
 
 import io.github.scitia.susieserver.project.domain.Project;
 
-public class StatusExpression implements SearchExpression {
-    private final String status;
+public class NameExpression implements SearchExpression {
+    private final String keyword;
 
-    public StatusExpression(String status) {
-        this.status = status;
+    public NameExpression(String keyword) {
+        this.keyword = keyword;
     }
 
     @Override
     public boolean interpret(SearchContext context) {
         Project project = context.getItem();
-        return project.getStatus() != null && project.getStatus().equals(status);
+        return project.getName() != null && project.getName().contains(keyword);
     }
 }

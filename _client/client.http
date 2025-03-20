@@ -1,0 +1,175 @@
+# auth Section
+
+### user sign-up
+
+POST {{host}}:{{port}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "j.brown@institute.com",
+  "password": "qwerty",
+  "firstName": "John",
+  "lastName": "Brown",
+  "extendedPrivileges": false
+}
+
+### user sign-in
+
+POST {{host}}:{{port}}/api/auth/sign-in
+Content-Type: application/json
+
+{
+    "username": "marian.marianowski@gmail.com",
+    "password": "qwerty"
+}
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+    client.global.set("refresh_token", response.body.refresh_token);
+%}
+
+### refresh token
+
+POST {{host}}:{{port}}/api/auth/refresh?refreshToken={{refresh_token}}
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+    client.global.set("refresh_token", response.body.refresh_token);
+%}
+
+### user info
+
+GET {{host}}:{{port}}/api/auth/user-info
+Authorization: Bearer {{access_token}}
+
+###
+
+# project section
+
+###
+
+GET {{host}}:{{port}}/api/scrum-project
+Authorization: Bearer {{access_token}}
+
+###
+
+POST {{host}}:{{port}}/api/scrum-project
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "projectID": null,
+  "name": "JEE Laboratory",
+  "description": "Project for presentation on the laboratory",
+  "projectGoal": "get the highest mark as possible"
+}
+
+### project details
+
+GET {{host}}:{{port}}/api/scrum-project/2
+Authorization: Bearer {{access_token}}
+
+### user association
+
+POST {{host}}:{{port}}/api/scrum-project/user-association
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "projectID": 2,
+  "email": "m.jerzyna@gmail.com"
+}
+
+### delete user
+
+DELETE {{host}}:{{port}}/api/scrum-project/delete-user
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "userUUID": "c753ad3d-0022-4b1f-936e-f5983f2d0e25",
+  "projectID": 2
+}
+
+###
+
+# SCRUM ACTIVITIES - ISSUE
+
+### get all issues
+
+GET {{host}}:{{port}}/api/issue?projectID=2
+Authorization: Bearer {{access_token}}
+
+### create issue
+
+POST {{host}}:{{port}}/api/issue
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "issueID": null,
+  "name": "JEE Issue 1",
+  "description": "Description of JEE Issue 1",
+  "estimation": 10,
+  "projectID": 2,
+  "issueTypeID": 1,
+  "issuePriorityID": 1
+}
+
+> {% client.global.set("issueID", response.body.issueID) %}
+
+### clone issue
+
+POST {{host}}:{{port}}/api/issue/clone-issue/{{issueID}}
+Authorization: Bearer {{access_token}}
+
+### issue details
+
+GET {{host}}:{{port}}/api/issue/details/3
+Authorization: Bearer {{access_token}}
+
+# DICTIONARIES
+
+### type
+
+GET {{host}}:{{port}}/api/dictionary/type
+Authorization: Bearer {{access_token}}
+
+### status
+
+GET {{host}}:{{port}}/api/dictionary/status
+Authorization: Bearer {{access_token}}
+
+### priority
+
+GET {{host}}:{{port}}/api/dictionary/priority
+Authorization: Bearer {{access_token}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
